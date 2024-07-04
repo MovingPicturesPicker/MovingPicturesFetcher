@@ -8,7 +8,6 @@ from movingpicturesfetcher.tomato_accessor import (
     moving_picture_generator,
     parse_page,
 )
-from selenium.webdriver.common.by import By
 
 
 class TestGetPictureDateGenerator:
@@ -54,9 +53,7 @@ class TestMovingPictureGenerator:
     """
 
     @mock.patch("movingpicturesfetcher.tomato_accessor.get_pictures_data_generator")
-    @mock.patch(
-        "movingpicturesfetcher.tomato_accessor.webdriver.remote.webelement.WebElement"
-    )
+    @mock.patch("movingpicturesfetcher.tomato_accessor.webdriver.Chrome")
     def test_moving_picture_generator(self, mock_driver, mock_pic_data_gen):
         mock_pic_data_gen.return_value = (
             (
@@ -84,6 +81,7 @@ class TestParsePage:
     ## Test `parse_page` function.
     """
 
+    @mock.patch("movingpicturesfetcher.tomato_accessor.moving_picture_generator")
     @mock.patch("movingpicturesfetcher.tomato_accessor.webdriver.Chrome")
-    def test_parse_page(self, mock_driver):
+    def test_parse_page(self, mock_driver, mock_mov_pic_gen):
         pass
