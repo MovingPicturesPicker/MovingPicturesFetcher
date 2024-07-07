@@ -104,9 +104,9 @@ def clean_score(score: str) -> int | None:
         If the score data exist returns it as int,
         otherwise returns `None`
     """
-    if score == "--":
-        return None
     score = score.strip("%")
+    if not score.isnumeric():
+        return None
     return int(score)
 
 
@@ -125,14 +125,13 @@ def turn_page(driver: webdriver.Chrome) -> None:
     driver
         The webdriver with the page.
     """
-    reject_cookies = driver.find_element(By.ID, IDS["reject_cookies"])
-
     try:
+        reject_cookies = driver.find_element(By.ID, IDS["reject_cookies"])
         reject_cookies.click()
-    except ElementClickInterceptedException:
+    except (ElementClickInterceptedException, NoSuchElementException):
         print("There is no cookies dialog")
-    finally:
-        next_page_button = driver.find_element(
-            By.XPATH, f"//button[@{ATTRIBUTES["next_page"]}]"
-        )
-        next_page_button.click()
+
+    next_page_button = driver.find_element(
+        By.XPATH, f"//button[@{ATTRIBUTES["next_page"]}]"
+    )
+    next_page_button.click()

@@ -57,7 +57,7 @@ class TestMovingPictureGenerator:
     def test_moving_picture_generator(self, mock_driver, mock_pic_data_gen):
         mock_pic_data_gen.return_value = (
             (
-                ["81%", "86%", "The Fall Guy", "Streaming May 21, 2024"],
+                ["", "81%", "", "86%", "The Fall Guy", "Streaming May 21, 2024"],
                 "https://www.rottentomatoes.com/m/the_fall_guy_2024",
             ),
         )
