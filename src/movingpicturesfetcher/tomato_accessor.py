@@ -4,7 +4,9 @@ from typing import Iterator
 import deprecation
 from movingpicturesdb.schemas import CreateMovingPicture
 from selenium import webdriver
-from selenium.common.exceptions import ElementNotInteractableException
+from selenium.common.exceptions import (
+    ElementNotInteractableException,
+)
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
@@ -99,7 +101,7 @@ def moving_picture_generator(driver: webdriver.Chrome) -> Iterator:
     """
     pictures_data = get_pictures_data_generator(driver)
     for mpic_data, mpic_url in pictures_data:
-        critics_score, audience_score, title, date = mpic_data
+        _, critics_score, _, audience_score, title, date = mpic_data
         picture_object = CreateMovingPicture(
             title=title,
             released_date=clean_date(date),
@@ -117,12 +119,12 @@ def parse_page(driver: webdriver.Chrome, page_url: str) -> None:
         # FIXME: Call post API and add CreateMovingPicture object to the DB
         movie_list = list(moving_picture_generator(driver))
         print(
-            f"Page: {page_counter}\n---\n"
-            f"First Movie:\n{movie_list[0].title}\n---\n"
-            f"Last Movie: \n{movie_list[-1].title}"
+            f"\n---\nPage: {page_counter}\n"
+            f"First Movie: {movie_list[0].title}\n"
+            f"Last Movie: {movie_list[-1].title}\n---\n"
         )
         try:
-            time.sleep(0.4)  # FIXME: To be removed
+            # time.sleep(0.4)  # FIXME: To be removed
             turn_page(driver)
         except ElementNotInteractableException:
             # Reached the end of pages
